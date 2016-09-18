@@ -12,6 +12,9 @@ class CBattleField : public QGraphicsScene
 public:
     CBattleField(int x, int y, int w, int h);
 
+public:
+    void UpdateCursor(const QPointF & cp);
+
 private:
     CTank * _tank;
 };

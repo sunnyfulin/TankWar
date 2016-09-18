@@ -9,12 +9,18 @@
 
 #include <QDebug>
 
-CTurret::CTurret(QGraphicsItem *)
-    :_curAngle(0),
-     _destAngle(0),
-     _omega(1)
+CTurret::CTurret(QGraphicsItem * parent)
+    : QGraphicsObject(parent),
+      _curAngle(0),
+      _destAngle(0),
+      _omega(1)
 {
 
+}
+
+void CTurret::UpdateCursor(const QPointF &cp)
+{
+    _endPoint = cp;
 }
 
 QRectF CTurret::boundingRect() const
@@ -70,36 +76,24 @@ void CTurret::advance(int step)
     if(!step)
         return;
 
-    QPointF endPoint = QCursor::pos();
+    QLineF startLine(QPointF(0,0),QPointF(0,-1));
+    QLineF endLine(QPointF(0,0),mapFromScene(_endPoint));
 
-    QLineF startLine(mapToScene(0,0),mapToScene(0,-100));
-    QLineF endLine(mapToScene(0,0),endPoint);
+    _destAngle = startLine.angleTo(endLine);
 
-    _destAngle = endLine.angleTo(startLine);
+    if(_destAngle<1 || _destAngle>359)
+        return;
 
-    if((_destAngle-_curAngle) >180)
+    if(_curAngle < _destAngle -1)
     {
-        _destAngle -= 360;
+        _curAngle += _omega;
     }
-    else if((_destAngle-_curAngle) < -180)
+    else if(_curAngle >_destAngle +1)
     {
-        _destAngle +=360;
+        _curAngle -= _omega;
     }
 
     setRotation(_curAngle);
-
-    if((_curAngle >= (_destAngle-1)) && (_curAngle <= (_destAngle+1)))
-    {
-        _curAngle = _destAngle;
-        return;
-    }
-
-    if(_curAngle == _destAngle)
-        return;
-    else if(_curAngle < _destAngle)
-        _curAngle += _omega;
-    else
-        _curAngle -= _omega;
 }
 
 

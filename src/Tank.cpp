@@ -10,11 +10,12 @@
 #include <QGraphicsScene>
 #include <QColor>
 
-CTank::CTank(QGraphicsItem *)
-    : _isMoving(false),
+CTank::CTank(QGraphicsItem * parent)
+    : QGraphicsObject(parent),
+      _isMoving(false),
       _isTurning(false),
       _angle(0),
-      _omega(1),
+      _omega(2),
       _moveDrection(0),
       _velocity(0),
       _maxForwardVelocity(10),
@@ -24,6 +25,11 @@ CTank::CTank(QGraphicsItem *)
 {
     _turret = new CTurret(this);
     _turret->setParentItem(this);
+}
+
+void CTank::updateCursor(const QPointF &cp)
+{
+    _turret->UpdateCursor(cp);
 }
 
 QRectF CTank::boundingRect() const
