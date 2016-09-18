@@ -19,7 +19,13 @@ CCommanderView::CCommanderView(CBattleField *scene)
 void CCommanderView::OnUpdateCursor()
 {
     QPoint c = QCursor::pos();
-    QPoint p(c.x()-geometry().x(),c.y()-geometry().y());
+
+    if(c == _c)
+        return;
+
+    _c = c;
+
+    QPoint p(_c.x()-geometry().x(),_c.y()-geometry().y());
     QPointF cp = mapToScene(p);
     _s->UpdateCursor(cp);
 }

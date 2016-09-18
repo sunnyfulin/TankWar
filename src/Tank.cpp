@@ -18,7 +18,7 @@ CTank::CTank(QGraphicsItem * parent)
       _angle(0),
       _omega(2),
       _velocity(0),
-      _maxForwardVelocity(3),
+      _maxForwardVelocity(4),
       _forwardAcceleration(0.2),
       _maxBackwardVelocity(-2),
       _backwardAcceleration(0.1)

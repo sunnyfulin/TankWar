@@ -2,17 +2,17 @@
 
 #include <QTimer>
 #include <QPainter>
-#include <QGraphicsSceneMouseEvent>
-#include <QCursor>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QGraphicsSceneMouseEvent>
 
 #include <QDebug>
 
 CTurret::CTurret(QGraphicsItem * parent)
     : QGraphicsObject(parent),
       _curAngle(180),
-      _omega(1)
+      _omega(1),
+      _isLocked(false)
 {
 
 }
@@ -72,7 +72,7 @@ void CTurret::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 void CTurret::advance(int step)
 {
-    if(!step)
+    if(!step || _isLocked)
         return;
 
     QLineF startLine(QPointF(0,0),QPointF(0,-1));
@@ -93,6 +93,18 @@ void CTurret::advance(int step)
     }
 
     setRotation(180-_curAngle);
+}
+
+void CTurret::mousePressEvent(QGraphicsSceneMouseEvent *e)
+{
+    if(e->button() == Qt::RightButton)
+        _isLocked = true;
+}
+
+void CTurret::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
+{
+    if(e->button() == Qt::RightButton)
+        _isLocked = false;
 }
 
 

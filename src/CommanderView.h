@@ -15,6 +15,8 @@ public slots:
 
 private:
     CBattleField * _s;
+
+    QPoint _c;
 };
 
 #endif // CCOMMANDERVIEW_H

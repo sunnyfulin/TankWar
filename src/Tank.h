@@ -26,11 +26,11 @@ protected:
     void advance(int step) Q_DECL_OVERRIDE;
 
 private:
-    void MoveForward();
-    void MoveBackward();
-    void MoveLeft();
-    void MoveRight();
-    void MoveStop();
+    inline void MoveForward();
+    inline void MoveBackward();
+    inline void MoveLeft();
+    inline void MoveRight();
+    inline void MoveStop();
 
 private:
     CTurret * _turret;
