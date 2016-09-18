@@ -1,26 +1,26 @@
 ﻿#include "Tank.h"
 
-#include <QPainter>
-#include <QBrush>
 #include <QPen>
-#include <QMouseEvent>
+#include <QColor>
+#include <QBrush>
 #include <QDebug>
 #include <QTimer>
-#include <QGraphicsSceneMouseEvent>
+#include <QPainter>
+#include <QMouseEvent>
 #include <QGraphicsScene>
-#include <QColor>
+#include <QGraphicsSceneMouseEvent>
+#include <QKeySequence>
+#include <QKeyEvent>
 
 CTank::CTank(QGraphicsItem * parent)
     : QGraphicsObject(parent),
       _isMoving(false),
-      _isTurning(false),
       _angle(0),
       _omega(2),
-      _moveDrection(0),
       _velocity(0),
-      _maxForwardVelocity(10),
-      _forwardAcceleration(0.1),
-      _maxBackwardVelocity(-4),
+      _maxForwardVelocity(3),
+      _forwardAcceleration(0.2),
+      _maxBackwardVelocity(-2),
       _backwardAcceleration(0.1)
 {
     _turret = new CTurret(this);
@@ -61,26 +61,49 @@ void CTank::keyPressEvent(QKeyEvent *e)
     if(e->key()!=Qt::Key_W && e->key()!=Qt::Key_S && e->key()!=Qt::Key_A && e->key()!=Qt::Key_D)
         return;
 
-    switch (e->key())
+    _keyPressedSet.insert(e->text());
+
+    if(_keyPressedSet.find("w") != _keyPressedSet.end() && _keyPressedSet.find("a") != _keyPressedSet.end())
     {
-    case Qt::Key_W:
         _isMoving = true;
         MoveForward();
-        break;
-    case Qt::Key_S:
+        MoveLeft();
+    }
+    else if(_keyPressedSet.find("w") != _keyPressedSet.end() && _keyPressedSet.find("d") != _keyPressedSet.end())
+    {
+        _isMoving = true;
+        MoveForward();
+        MoveRight();
+    }
+    else if(_keyPressedSet.find("s") != _keyPressedSet.end() && _keyPressedSet.find("a") != _keyPressedSet.end())
+    {
         _isMoving = true;
         MoveBackward();
-        break;
-    case Qt::Key_A:
-        _isTurning = true;
         MoveLeft();
-        break;
-    case Qt::Key_D:
-        _isTurning = true;
+    }
+    else if(_keyPressedSet.find("s") != _keyPressedSet.end() && _keyPressedSet.find("d")!= _keyPressedSet.end())
+    {
+        _isMoving = true;
+        MoveBackward();
         MoveRight();
-        break;
-    default:
-        break;
+    }
+    else if(_keyPressedSet.find("w") != _keyPressedSet.end())
+    {
+        _isMoving = true;
+        MoveForward();
+    }
+    else if(_keyPressedSet.find("s") != _keyPressedSet.end())
+    {
+        _isMoving = true;
+        MoveBackward();
+    }
+    else if(_keyPressedSet.find("a") != _keyPressedSet.end())
+    {
+        MoveLeft();
+    }
+    else if(_keyPressedSet.find("d") != _keyPressedSet.end())
+    {
+        MoveRight();
     }
 }
 
@@ -89,8 +112,15 @@ void CTank::keyReleaseEvent(QKeyEvent *e)
     if(e->key()!=Qt::Key_W && e->key()!=Qt::Key_S && e->key()!=Qt::Key_A && e->key()!=Qt::Key_D)
         return;
 
-    _isMoving = false;
-    _isTurning = false;
+    _keyPressedSet.remove(e->text());
+
+    switch (e->key()) {
+    case Qt::Key_W: case Qt::Key_S:
+        _isMoving = false;
+        break;
+    default:
+        break;
+    }
 }
 
 void CTank::MoveForward()
@@ -136,17 +166,15 @@ void CTank::advance(int step)
     if(!step)
         return;
 
-    //移动
     if(!_isMoving)
     {
         MoveStop();
     }
-    setPos(mapToParent(0,-_velocity));
 
-    //转向
+    setPos(mapToScene(0,-_velocity));
+
     setRotation(_angle);
 
-    //更新
     update(boundingRect());
 }
 

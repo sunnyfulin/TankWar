@@ -11,8 +11,7 @@
 
 CTurret::CTurret(QGraphicsItem * parent)
     : QGraphicsObject(parent),
-      _curAngle(0),
-      _destAngle(0),
+      _curAngle(180),
       _omega(1)
 {
 
@@ -79,21 +78,21 @@ void CTurret::advance(int step)
     QLineF startLine(QPointF(0,0),QPointF(0,-1));
     QLineF endLine(QPointF(0,0),mapFromScene(_endPoint));
 
-    _destAngle = startLine.angleTo(endLine);
+    qreal destAngle = endLine.angleTo(startLine);
 
-    if(_destAngle<1 || _destAngle>359)
+    if(destAngle<1 || destAngle>359)
         return;
 
-    if(_curAngle < _destAngle -1)
+    if(_curAngle < destAngle)
     {
         _curAngle += _omega;
     }
-    else if(_curAngle >_destAngle +1)
+    else
     {
         _curAngle -= _omega;
     }
 
-    setRotation(_curAngle);
+    setRotation(180-_curAngle);
 }
 
 

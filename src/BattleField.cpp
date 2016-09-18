@@ -14,6 +14,8 @@ CBattleField::CBattleField(int x, int y, int w, int h)
 
     _tank->grabKeyboard();
     _tank->childItems().first()->grabMouse();
+
+    _tank->setScale(0.8);
 }
 
 void CBattleField::UpdateCursor(const QPointF &cp)
