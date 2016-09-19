@@ -2,7 +2,6 @@
 #define CTURRET_H
 
 #include <QGraphicsObject>
-#include <QMouseEvent>
 
 class CBullet;
 
@@ -31,10 +30,12 @@ signals:
 private:
     qreal _omega;  //炮塔旋转角速度
     qreal _curAngle;  //当前炮塔相对于正前方的旋转的角度
+    QPointF _endPoint;
 
     bool _isLocked;   //右键锁定炮塔
 
-    QPointF _endPoint;
+    bool _isFire;     //是否正在开炮中
+    int _delta;       //炮管收缩长度
 };
 
 #endif // CTURRET_H

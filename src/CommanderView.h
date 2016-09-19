@@ -15,7 +15,6 @@ public slots:
 
 private:
     CBattleField * _s;
-
     QPoint _c;
 };
 

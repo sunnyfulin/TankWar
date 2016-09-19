@@ -13,7 +13,7 @@ CCommanderView::CCommanderView(CBattleField *scene)
     setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     setWindowTitle("Tank War");
     setMouseTracking(true);
-    resize(805,805);
+    resize(1000,805);
 }
 
 void CCommanderView::OnUpdateCursor()
