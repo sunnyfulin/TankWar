@@ -15,6 +15,9 @@ public:
 public:
     void UpdateCursor(const QPointF & cp);
 
+public slots:
+    void OnFireBullet(QPointF startPoint,qreal drection);
+
 private:
     CTank * _tank;
 };

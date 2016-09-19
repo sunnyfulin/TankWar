@@ -97,6 +97,9 @@ void CTurret::advance(int step)
 
 void CTurret::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
+    if(e->button() == Qt::LeftButton)
+        emit SiFireBullet(mapToScene(0,-90),_curAngle);
+
     if(e->button() == Qt::RightButton)
         _isLocked = true;
 }

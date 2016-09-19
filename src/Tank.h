@@ -23,7 +23,7 @@ protected:
     void keyPressEvent(QKeyEvent * e);
     void keyReleaseEvent(QKeyEvent * e);
 
-    void advance(int step) Q_DECL_OVERRIDE;
+    void advance(int step);
 
 private:
     inline void MoveForward();
@@ -32,8 +32,8 @@ private:
     inline void MoveRight();
     inline void MoveStop();
 
-private:
-    CTurret * _turret;
+public:
+    CTurret * Turret;
 
 private:
     bool _isMoving;                //是否正在运动

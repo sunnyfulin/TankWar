@@ -4,12 +4,16 @@
 #include <QGraphicsObject>
 #include <QMouseEvent>
 
+class CBullet;
+
 class CTurret : public QGraphicsObject
 {
     Q_OBJECT
 
 public:
     CTurret(QGraphicsItem * parent =0);
+
+    friend class CBullet;
 
     void UpdateCursor(const QPointF & cp);
 
@@ -20,6 +24,9 @@ protected:
 
     void mousePressEvent(QGraphicsSceneMouseEvent * e);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * e);
+
+signals:
+    void SiFireBullet(QPointF, qreal);
 
 private:
     qreal _omega;  //炮塔旋转角速度

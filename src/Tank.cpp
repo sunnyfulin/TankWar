@@ -23,13 +23,13 @@ CTank::CTank(QGraphicsItem * parent)
       _maxBackwardVelocity(-2),
       _backwardAcceleration(0.1)
 {
-    _turret = new CTurret(this);
-    _turret->setParentItem(this);
+    Turret = new CTurret(this);
+    Turret->setParentItem(this);
 }
 
 void CTank::updateCursor(const QPointF &cp)
 {
-    _turret->UpdateCursor(cp);
+    Turret->UpdateCursor(cp);
 }
 
 QRectF CTank::boundingRect() const
