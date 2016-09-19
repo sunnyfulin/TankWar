@@ -23,6 +23,9 @@ protected:
 
     void advance(int step);
 
+signals:
+    void SiMakeRut(QPointF pos, qreal drection);
+
 private:
     inline void MoveForward();
     inline void MoveBackward();

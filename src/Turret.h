@@ -11,9 +11,6 @@ class CTurret : public QGraphicsObject
 
 public:
     CTurret(QGraphicsItem * parent =0);
-
-    friend class CBullet;
-
     void UpdateCursor(const QPointF & cp);
 
 protected:

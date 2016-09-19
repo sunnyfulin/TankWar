@@ -178,6 +178,15 @@ void CTank::advance(int step)
     setRotation(_angle);
 
     update(boundingRect());
+
+    static int x = 0;
+    if(x == 5)
+    {
+        emit SiMakeRut(mapToScene(0,0),rotation());
+
+        x=0;
+    }
+    x+=1;
 }
 
 void CTank::MoveStop()

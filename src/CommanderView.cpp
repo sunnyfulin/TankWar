@@ -7,7 +7,8 @@ CCommanderView::CCommanderView(CBattleField *scene)
     : QGraphicsView(scene),
       _s(scene)
 {
-    setBackgroundBrush(QColor(192,192,192));
+    setBackgroundBrush(QPixmap(":/images/cheese.jpg"));
+//    setBackgroundBrush(QColor(192,192,192));
     setRenderHint(QPainter::Antialiasing);
     setCacheMode(QGraphicsView::CacheBackground);
     setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);

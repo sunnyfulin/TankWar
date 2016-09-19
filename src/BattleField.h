@@ -17,6 +17,7 @@ public:
 
 public slots:
     void OnFireBullet(QPointF startPoint,qreal drection);
+    void OnMakeRut(QPointF pos, qreal direction);
 
 private:
     CTank * _tank;

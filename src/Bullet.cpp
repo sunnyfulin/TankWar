@@ -6,11 +6,11 @@
 
 CBullet::CBullet(qreal drection, QGraphicsItem *parent)
     : QGraphicsObject(parent),
-      _drection(drection),
+      _direction(drection),
       _velocity(8)
 {
     //炮弹前进方向为坦克炮管的当前指向
-    setRotation(180-_drection);
+    setRotation(180-_direction);
 }
 
 QRectF CBullet::boundingRect() const
@@ -20,8 +20,8 @@ QRectF CBullet::boundingRect() const
 
 void CBullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setPen(Qt::black);
-    painter->setBrush(Qt::black);
+    painter->setPen(QColor(255,255,255));
+    painter->setBrush(QColor(255,255,255));
 
     QPainterPath p(QPoint(-0,-10));
     p.lineTo(-2,-6);

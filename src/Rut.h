@@ -1,12 +1,12 @@
-﻿#ifndef CBULLET_H
-#define CBULLET_H
+﻿#ifndef CRUT_H
+#define CRUT_H
 
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 
-class CBullet : public QGraphicsObject
+class CRut : public QGraphicsObject
 {
 public:
-    CBullet(qreal drection, QGraphicsItem * parent = 0);
+    CRut(qreal direction, QGraphicsItem * parent = 0);
 
 protected:
     QRectF boundingRect() const;
@@ -14,8 +14,9 @@ protected:
     void advance(int step);
 
 private:
+    QColor _color;
+    int _alpha;
     qreal _direction;
-    int _velocity;
 };
 
-#endif // CBULLET_H
+#endif // CRUT_H
