@@ -12,6 +12,7 @@ CSmoke::CSmoke(qreal direction, QGraphicsItem *parent)
       _innerColor(255,128,0),
       _decorateColor(255,0,0)
 {
+    setZValue(-1);
     setRotation(180-_direction);
 }
 

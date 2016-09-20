@@ -1,6 +1,7 @@
 ﻿#include "Turret.h"
 
 #include <QPainter>
+#include <QSound>
 #include <QGraphicsSceneMouseEvent>
 
 #include <QDebug>
@@ -122,6 +123,7 @@ void CTurret::mousePressEvent(QGraphicsSceneMouseEvent *e)
     {
         _isFire = true;
 
+        QSound::play("../sound/fire.wav");
         emit SiFireBullet(mapToScene(0,-90),_curAngle);
     }
 

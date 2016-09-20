@@ -3,6 +3,7 @@
 
 #include <QGraphicsObject>
 #include <QSet>
+#include <QSound>
 
 #include "Turret.h"
 
@@ -48,6 +49,8 @@ private:
     qreal _backwardAcceleration;  //倒车加速度
 
     QSet<QString> _keyPressedSet; //当前按下的按键集合
+
+    QSound _movingSound;
 };
 
 #endif // CTANK_H

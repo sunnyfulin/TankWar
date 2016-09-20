@@ -18,13 +18,17 @@ CTank::CTank(QGraphicsItem * parent)
       _angle(0),
       _omega(2),
       _velocity(0),
-      _maxForwardVelocity(4),
-      _forwardAcceleration(0.2),
+      _maxForwardVelocity(2),
+      _forwardAcceleration(0.1),
       _maxBackwardVelocity(-2),
-      _backwardAcceleration(0.1)
+      _backwardAcceleration(0.1),
+      _movingSound("../sound/moving.wav")
 {
     Turret = new CTurret(this);
     Turret->setParentItem(this);
+
+    _movingSound.setLoops(-1);
+//    _movingSound.play();
 }
 
 void CTank::updateCursor(const QPointF &cp)
@@ -39,9 +43,10 @@ QRectF CTank::boundingRect() const
 
 void CTank::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //两条履带
     painter->setPen(Qt::black);
     painter->setBrush(QColor(135,120,117));
+
+    //两条履带
     painter->drawRect(QRect(-30,-50,16,100));
     painter->drawRect(QRect(14,-50,16,100));
 
@@ -65,48 +70,54 @@ void CTank::keyPressEvent(QKeyEvent *e)
 
     _keyPressedSet.insert(e->text());    //记住按键
 
-    //根据不同的按键组合来判定坦克的移动与转向
-    if(_keyPressedSet.find("w") != _keyPressedSet.end() && _keyPressedSet.find("a") != _keyPressedSet.end())
+    if(_keyPressedSet.size()==2)
     {
-        _isMoving = true;
-        MoveForward();
-        MoveLeft();
+        //根据不同的按键组合来判定坦克的移动与转向
+        if(_keyPressedSet.find("w") != _keyPressedSet.end() && _keyPressedSet.find("a") != _keyPressedSet.end())
+        {
+            _isMoving = true;
+            MoveForward();
+            MoveLeft();
+        }
+        else if(_keyPressedSet.find("w") != _keyPressedSet.end() && _keyPressedSet.find("d") != _keyPressedSet.end())
+        {
+            _isMoving = true;
+            MoveForward();
+            MoveRight();
+        }
+        else if(_keyPressedSet.find("s") != _keyPressedSet.end() && _keyPressedSet.find("a") != _keyPressedSet.end())
+        {
+            _isMoving = true;
+            MoveBackward();
+            MoveLeft();
+        }
+        else if(_keyPressedSet.find("s") != _keyPressedSet.end() && _keyPressedSet.find("d")!= _keyPressedSet.end())
+        {
+            _isMoving = true;
+            MoveBackward();
+            MoveRight();
+        }
     }
-    else if(_keyPressedSet.find("w") != _keyPressedSet.end() && _keyPressedSet.find("d") != _keyPressedSet.end())
+    else if(_keyPressedSet.size()==1)
     {
-        _isMoving = true;
-        MoveForward();
-        MoveRight();
-    }
-    else if(_keyPressedSet.find("s") != _keyPressedSet.end() && _keyPressedSet.find("a") != _keyPressedSet.end())
-    {
-        _isMoving = true;
-        MoveBackward();
-        MoveLeft();
-    }
-    else if(_keyPressedSet.find("s") != _keyPressedSet.end() && _keyPressedSet.find("d")!= _keyPressedSet.end())
-    {
-        _isMoving = true;
-        MoveBackward();
-        MoveRight();
-    }
-    else if(_keyPressedSet.find("w") != _keyPressedSet.end())
-    {
-        _isMoving = true;
-        MoveForward();
-    }
-    else if(_keyPressedSet.find("s") != _keyPressedSet.end())
-    {
-        _isMoving = true;
-        MoveBackward();
-    }
-    else if(_keyPressedSet.find("a") != _keyPressedSet.end())
-    {
-        MoveLeft();
-    }
-    else if(_keyPressedSet.find("d") != _keyPressedSet.end())
-    {
-        MoveRight();
+        if(_keyPressedSet.find("w") != _keyPressedSet.end())
+        {
+            _isMoving = true;
+            MoveForward();
+        }
+        else if(_keyPressedSet.find("s") != _keyPressedSet.end())
+        {
+            _isMoving = true;
+            MoveBackward();
+        }
+        else if(_keyPressedSet.find("a") != _keyPressedSet.end())
+        {
+            MoveLeft();
+        }
+        else if(_keyPressedSet.find("d") != _keyPressedSet.end())
+        {
+            MoveRight();
+        }
     }
 }
 
@@ -177,12 +188,10 @@ void CTank::advance(int step)
 
     setRotation(_angle);
 
-    update(boundingRect());
-
     static int x = 0;
     if(x == 5)
     {
-        emit SiMakeRut(mapToScene(0,0),rotation());
+        emit SiMakeRut(scenePos(),rotation());
 
         x=0;
     }

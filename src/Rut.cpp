@@ -10,7 +10,7 @@ CRut::CRut(qreal direction, QGraphicsItem *parent)
     _alpha(255),
     _direction(direction)
 {
-    setZValue(-1);
+    setZValue(-2);
     setRotation(_direction);
 }
 
