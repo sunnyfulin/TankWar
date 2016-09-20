@@ -24,7 +24,7 @@ CBattleField::CBattleField(int x, int y, int w, int h)
     connect(_tank,&CTank::SiMakeRut,this,&CBattleField::OnMakeRut);
 
     //场景边框
-//    addRect(-400,-400,800,800,QPen(Qt::black));
+    addRect(-400,-400,800,800,QPen(Qt::black));
 }
 
 void CBattleField::UpdateCursor(const QPointF &cp)

@@ -24,7 +24,7 @@ void CTurret::UpdateCursor(const QPointF &cp)
 
 QRectF CTurret::boundingRect() const
 {
-    return QRectF(-26,-90,52,130);
+    return QRectF(-26,-130,52,170);
 }
 
 void CTurret::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -75,6 +75,52 @@ void CTurret::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->setBrush(QColor(141,123,113));
     painter->drawEllipse(-1,-11,20,20);
     painter->drawEllipse(2,-8,14,14);
+
+    //开炮后的火焰效果
+    if(_isFire)
+    {
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(QColor(255,255,255));
+        QPainterPath pOut(QPoint(-3,-85));
+        pOut.lineTo(-10,-130);
+        pOut.lineTo(-8,-115);
+        pOut.lineTo(-5,-125);
+        pOut.lineTo(-2,-120);
+        pOut.lineTo(0,-130);
+        pOut.lineTo(2,-130);
+        pOut.lineTo(5,-125);
+        pOut.lineTo(8,-115);
+        pOut.lineTo(10,-130);
+        pOut.lineTo(3,-85);
+        pOut.lineTo(-3,-85);
+        painter->drawPath(pOut);
+
+        painter->setBrush(QColor(255,128,0));
+        QPainterPath pInner(QPoint(-2,-86));
+        pInner.lineTo(-8,-114);
+        pInner.lineTo(-6,-110);
+        pInner.lineTo(-3,-119);
+        pInner.lineTo(-1,-114);
+        pInner.lineTo(0,-124);
+        pInner.lineTo(1,-114);
+        pInner.lineTo(3,-119);
+        pInner.lineTo(6,-110);
+        pInner.lineTo(8,-114);
+        pInner.lineTo(2,-86);
+        pInner.lineTo(-2,-86);
+        painter->drawPath(pInner);
+
+        painter->setBrush(QColor(255,0,0));
+        QPainterPath p(QPoint(-1,-88));
+        p.lineTo(-3,-110);
+        p.lineTo(-1,-105);
+        p.lineTo(0,-115);
+        p.lineTo(1,-105);
+        p.lineTo(3,-110);
+        p.lineTo(1,-88);
+        p.lineTo(-1,-88);
+        painter->drawPath(p);
+    }
 }
 
 void CTurret::advance(int step)

@@ -19,9 +19,8 @@ private:
 
     int _alpha;
 
-    QColor _outColor;
+    QColor _outterColor;
     QColor _innerColor;
-    QColor _decorateColor;
 };
 
 #endif // CSMOKE_H
