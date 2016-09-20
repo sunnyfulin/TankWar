@@ -14,6 +14,7 @@ MOC_DIR += moc
 OBJECTS_DIR += obj
 
 RESOURCES += \
-    images.qrc
+    images.qrc \
+    sound.qrc
 
 include(./src/src.pri)
