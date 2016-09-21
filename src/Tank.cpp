@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 
@@ -18,7 +19,7 @@ CTank::CTank(QGraphicsItem * parent)
       _angle(0),
       _omega(2),
       _velocity(0),
-      _maxForwardVelocity(2),
+      _maxForwardVelocity(4),
       _forwardAcceleration(0.1),
       _maxBackwardVelocity(-2),
       _backwardAcceleration(0.1),
@@ -184,12 +185,16 @@ void CTank::advance(int step)
         MoveStop();
     }
 
-    setPos(mapToScene(0,-_velocity));
+    QPointF tempPoint = mapToScene(0,-_velocity);
+    if(tempPoint.x() <4000 && tempPoint.x() > -4000 && tempPoint.y()<4000 && tempPoint.y()>-4000)
+        setPos(mapToScene(0,-_velocity));
+
+    scene()->views().first()->centerOn(this);   //让view以坦克为中心
 
     setRotation(_angle);
 
     static int x = 0;
-    if(x == 5)
+    if(x == 10)
     {
         emit SiMakeRut(scenePos(),rotation());
 

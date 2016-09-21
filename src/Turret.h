@@ -34,6 +34,13 @@ private:
 
     bool _isFire;     //是否正在开炮中
     int _delta;       //炮管收缩长度
+
+    //用于绘图的painterPath
+    QPainterPath _pOutter;
+    QPainterPath _pInner;
+    QPainterPath _pOut;
+    QPainterPath _pIn;
+    QPainterPath _pCore;
 };
 
 #endif // CTURRET_H

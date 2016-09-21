@@ -7,29 +7,30 @@
 CBullet::CBullet(qreal drection, QGraphicsItem *parent)
     : QGraphicsObject(parent),
       _direction(drection),
-      _velocity(8)
+      _velocity(50),
+      _pPath(QPoint(-0,-100))
 {
     //炮弹前进方向为坦克炮管的当前指向
     setRotation(180-_direction);
+
+    _pPath.lineTo(-2,-96);
+    _pPath.lineTo(-2,-90);
+    _pPath.lineTo(0,0);
+    _pPath.lineTo(2,-90);
+    _pPath.lineTo(2,-96);
+    _pPath.lineTo(0,-100);
 }
 
 QRectF CBullet::boundingRect() const
 {
-    return QRectF(-2,-10,4,10);
+    return QRectF(-2,-100,4,100);
 }
 
 void CBullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setPen(QColor(255,255,255));
     painter->setBrush(QColor(255,255,255));
-
-    QPainterPath p(QPoint(-0,-10));
-    p.lineTo(-2,-6);
-    p.lineTo(-2,0);
-    p.lineTo(2,0);
-    p.lineTo(2,-6);
-    p.lineTo(0,-10);
-    painter->drawPath(p);
+    painter->drawPath(_pPath);
 }
 
 void CBullet::advance(int step)
@@ -41,7 +42,7 @@ void CBullet::advance(int step)
     setPos(mapToScene(0,-_velocity));
 
     //若炮弹飞出场景，则销毁
-    if(x()>400 || x()<-400 || y()>400 || y()<-400)
+    if(x()>4000 || x()<-4000 || y()>4000 || y()<-4000)
     {
         hide();
         delete this;

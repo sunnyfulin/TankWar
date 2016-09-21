@@ -16,6 +16,8 @@ protected:
 private:
     qreal _direction;
     int _velocity;
+
+    QPainterPath _pPath;
 };
 
 #endif // CBULLET_H

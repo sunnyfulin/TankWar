@@ -12,9 +12,61 @@ CTurret::CTurret(QGraphicsItem * parent)
       _omega(1),
       _isLocked(false),
       _isFire(false),
-      _delta(0)
+      _delta(0),
+      _pOutter(QPoint(-4,-30)),
+      _pInner(QPoint(-4,-30)),
+      _pOut(QPoint(-3,-85)),
+      _pIn(QPoint(-2,-86)),
+      _pCore(QPoint(-1,-88))
 {
+    _pOutter.lineTo(-10,-30);
+    _pOutter.lineTo(-26,-21);
+    _pOutter.lineTo(-20,26);
+    _pOutter.lineTo(-16,30);
+    _pOutter.lineTo(16,30);
+    _pOutter.lineTo(20,26);
+    _pOutter.lineTo(26,-21);
+    _pOutter.lineTo(8,-30);
+    _pOutter.lineTo(-10,-30);
 
+    _pInner.lineTo(-20,-20);
+    _pInner.lineTo(-16,30);
+    _pInner.lineTo(16,30);
+    _pInner.lineTo(20,-20);
+    _pInner.lineTo(4,-30);
+    _pInner.lineTo(-4,-30);
+
+    _pOut.lineTo(-10,-130);
+    _pOut.lineTo(-8,-115);
+    _pOut.lineTo(-5,-125);
+    _pOut.lineTo(-2,-120);
+    _pOut.lineTo(0,-130);
+    _pOut.lineTo(2,-130);
+    _pOut.lineTo(5,-125);
+    _pOut.lineTo(8,-115);
+    _pOut.lineTo(10,-130);
+    _pOut.lineTo(3,-85);
+    _pOut.lineTo(-3,-85);
+
+    _pIn.lineTo(-8,-114);
+    _pIn.lineTo(-6,-110);
+    _pIn.lineTo(-3,-119);
+    _pIn.lineTo(-1,-114);
+    _pIn.lineTo(0,-124);
+    _pIn.lineTo(1,-114);
+    _pIn.lineTo(3,-119);
+    _pIn.lineTo(6,-110);
+    _pIn.lineTo(8,-114);
+    _pIn.lineTo(2,-86);
+    _pIn.lineTo(-2,-86);
+
+    _pCore.lineTo(-3,-110);
+    _pCore.lineTo(-1,-105);
+    _pCore.lineTo(0,-115);
+    _pCore.lineTo(1,-105);
+    _pCore.lineTo(3,-110);
+    _pCore.lineTo(1,-88);
+    _pCore.lineTo(-1,-88);
 }
 
 void CTurret::UpdateCursor(const QPointF &cp)
@@ -41,29 +93,12 @@ void CTurret::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     //炮塔底座轮廓
     painter->setBrush(QColor(141,123,113));
-    QPainterPath pOutter(QPoint(-4,-30));
-    pOutter.lineTo(-10,-30);
-    pOutter.lineTo(-26,-21);
-    pOutter.lineTo(-20,26);
-    pOutter.lineTo(-16,30);
-    pOutter.lineTo(16,30);
-    pOutter.lineTo(20,26);
-    pOutter.lineTo(26,-21);
-    pOutter.lineTo(8,-30);
-    pOutter.lineTo(-10,-30);
-    painter->drawPath(pOutter);
+    painter->drawPath(_pOutter);
     painter->drawLine(-26,-21,26,-21);
 
     //炮塔顶部轮廓
-    QPainterPath pInner(QPoint(-4,-30));
-    pInner.lineTo(-20,-20);
-    pInner.lineTo(-16,30);
-    pInner.lineTo(16,30);
-    pInner.lineTo(20,-20);
-    pInner.lineTo(4,-30);
-    pInner.lineTo(-4,-30);
     painter->setBrush(QColor(199,175,87));
-    painter->drawPath(pInner);
+    painter->drawPath(_pInner);
 
     //炮盾
     painter->drawRect(-5,-30,10,10);
@@ -81,51 +116,19 @@ void CTurret::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     {
         painter->setPen(Qt::NoPen);
         painter->setBrush(QColor(255,255,255));
-        QPainterPath pOut(QPoint(-3,-85));
-        pOut.lineTo(-10,-130);
-        pOut.lineTo(-8,-115);
-        pOut.lineTo(-5,-125);
-        pOut.lineTo(-2,-120);
-        pOut.lineTo(0,-130);
-        pOut.lineTo(2,-130);
-        pOut.lineTo(5,-125);
-        pOut.lineTo(8,-115);
-        pOut.lineTo(10,-130);
-        pOut.lineTo(3,-85);
-        pOut.lineTo(-3,-85);
-        painter->drawPath(pOut);
+        painter->drawPath(_pOut);
 
         painter->setBrush(QColor(255,128,0));
-        QPainterPath pInner(QPoint(-2,-86));
-        pInner.lineTo(-8,-114);
-        pInner.lineTo(-6,-110);
-        pInner.lineTo(-3,-119);
-        pInner.lineTo(-1,-114);
-        pInner.lineTo(0,-124);
-        pInner.lineTo(1,-114);
-        pInner.lineTo(3,-119);
-        pInner.lineTo(6,-110);
-        pInner.lineTo(8,-114);
-        pInner.lineTo(2,-86);
-        pInner.lineTo(-2,-86);
-        painter->drawPath(pInner);
+        painter->drawPath(_pIn);
 
         painter->setBrush(QColor(255,0,0));
-        QPainterPath p(QPoint(-1,-88));
-        p.lineTo(-3,-110);
-        p.lineTo(-1,-105);
-        p.lineTo(0,-115);
-        p.lineTo(1,-105);
-        p.lineTo(3,-110);
-        p.lineTo(1,-88);
-        p.lineTo(-1,-88);
-        painter->drawPath(p);
+        painter->drawPath(_pCore);
     }
 }
 
 void CTurret::advance(int step)
 {
-    if(!step )
+    if(!step)
         return;
 
     //开炮特效：炮管收缩，开炮完毕，炮管还原
@@ -151,7 +154,7 @@ void CTurret::advance(int step)
 
     qreal destAngle = endLine.angleTo(startLine);
 
-    if(destAngle<1 || destAngle>359)
+    if(destAngle<0.5 || destAngle>359.5)
         return;
 
     if(_curAngle < destAngle)

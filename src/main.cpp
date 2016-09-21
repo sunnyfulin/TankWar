@@ -9,8 +9,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QApplication::setOverrideCursor(Qt::CrossCursor);
+//    QApplication::setOverrideCursor(Qt::BlankCursor);
 
-    CBattleField bf(-400, -400, 800, 800);
+    CBattleField bf(-4000, -4000, 8000, 8000);
     CCommanderView view(&bf);
     view.show();
 
